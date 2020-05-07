@@ -6,21 +6,17 @@ class TopicRequest extends Request
 {
     public function rules()
     {
-        switch($this->method())
-        {
+        switch ($this->method()) {
             // CREATE
             case 'POST':
-            {
-                return [
-                    // CREATE ROLES
-                ];
-            }
             // UPDATE
             case 'PUT':
             case 'PATCH':
             {
                 return [
-                    // UPDATE ROLES
+                    'title' => 'required|min:2',
+                    'body' => 'required|min:3',
+                    'category_id' => 'required|numeric',
                 ];
             }
             case 'GET':
@@ -35,7 +31,8 @@ class TopicRequest extends Request
     public function messages()
     {
         return [
-            // Validation messages
+            'title.min' => '标题至少二个字符',
+            'body' => '文章内容不少于三个字符'
         ];
     }
 }
