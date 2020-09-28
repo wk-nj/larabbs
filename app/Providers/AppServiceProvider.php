@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
             // 是否是站长
             return \Auth::user()->hasRole('Founder');
         });
+        JsonResource::withoutWrapping();
     }
 }
