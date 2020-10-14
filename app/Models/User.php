@@ -9,8 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmailContracts
+class User extends Authenticatable implements MustVerifyEmailContracts, JWTSubject
 {
     use MustVerifyEmailTrait, SoftDeletes, HasRoles;
 
@@ -37,7 +38,7 @@ class User extends Authenticatable implements MustVerifyEmailContracts
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'introduction', 'avatar', 'phone'
+        'name', 'email', 'password', 'introduction', 'avatar', 'phone', 'weixin_openid', 'weixin_unionid'
     ];
 
     /**
@@ -78,5 +79,15 @@ class User extends Authenticatable implements MustVerifyEmailContracts
         $this->notification_count = 0;
         $this->save();
         $this->unreadNotifications->markAsRead();
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
